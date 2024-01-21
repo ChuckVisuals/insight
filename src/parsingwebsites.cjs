@@ -23,16 +23,17 @@
 // Example URL to get HTML from
 // Example URL to get HTML from
 
-const urls = ['https://www.gymshark.com/pages/shop-women', 'https://www.gymshark.com/pages/shop-men', 
-'https://www.youngla.com/collections/sale', 'https://www.rawgear.com/collections/december-sale', 'https://inakapower.com/collections/sale', 
-'https://www.nike.com/w/sale-3yaep', 'https://shop.lululemon.com/c/sale/_/N-8t6?cid=Google_PPC_US_NAT_EN_X_BrandIncr_All-Brand_GEN_Y23_ag-PPC_G_US_EN_DM_X_GEN_ALL_lululemon-Sale&gad_source=1&gclid=Cj0KCQiA-62tBhDSARIsAO7twbaTG-jCJC-du1APiDvmJH0nyxte63mcwnHn82wIyLKyyQmp-VFd02QaAp4rEALw_wcB&gclsrc=aw.ds', 
-'https://www.underarmour.com/en-us/c/outlet/', 'https://www.fabletics.com/', 'https://www.newbalance.com/sale/', 'https://www.adidas.com/us/sale', 'https://www.asics.com/us/en-us/clearance/c/aa60000000/' ];
+const urls = ['https://www.gymshark.com/pages/shop-women', 'https://www.gymshark.com/pages/shop-men',
+  'https://www.youngla.com/collections/sale', 'https://www.rawgear.com/collections/december-sale', 'https://inakapower.com/collections/sale',
+  'https://www.nike.com/w/sale-3yaep', 'https://shop.lululemon.com/c/sale/_/N-8t6?cid=Google_PPC_US_NAT_EN_X_BrandIncr_All-Brand_GEN_Y23_ag-PPC_G_US_EN_DM_X_GEN_ALL_lululemon-Sale&gad_source=1&gclid=Cj0KCQiA-62tBhDSARIsAO7twbaTG-jCJC-du1APiDvmJH0nyxte63mcwnHn82wIyLKyyQmp-VFd02QaAp4rEALw_wcB&gclsrc=aw.ds',
+  'https://www.underarmour.com/en-us/c/outlet/', 'https://www.fabletics.com/', 'https://www.newbalance.com/sale/', 'https://www.adidas.com/us/sale', 'https://www.asics.com/us/en-us/clearance/c/aa60000000/'];
 
 // Function to fetch and process a single URL
 async function fetchAndProcess(url) {
   try {
     const response = await fetch(url);
     if (!response.ok) {
+      console.log("THIS IS BLOCKED", url)
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const html = await response.text();
@@ -48,6 +49,7 @@ async function fetchAndProcess(url) {
     // For example, assuming you have an HTML element with id="output"
     // document.getElementById('output').innerHTML += prices.join('<br>') + '<br>';
   } catch (error) {
+    console.log("THIS IS BLOCKED", url)
     console.error('Error fetching HTML:', error);
   }
 }
