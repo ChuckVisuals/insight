@@ -20,23 +20,33 @@
 // }
 
 // main();
-const puppeteer = require('puppeteer')
-async function scrapeProduct(url) {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage()
-    await page.goto(url)
-    const[el] = await page.$x('//*[@id="MainContent"]/div[1]/section[1]/div[1]')
-    const src = await el.getProperty('src');
-    const srcTxt = await src.jsonValue();
+// Example URL to get HTML from
+// Example URL to get HTML from
+const url = 'https://www.gymshark.com/pages/shop-women';
 
-    console.log({srcTxt});
+// Fetch the HTML content
+fetch(url)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.text();
+  })
+  .then(html => {
+    // Use a regular expression to find prices (assuming they contain $)
+    const priceRegex = /\$\d+(\.\d{1,2})?/g;
+    const prices = html.match(priceRegex) || [];
 
-    browser.close()
+    // Log the extracted prices to the console
+    console.log('Prices:', prices);
 
-
-}
-
-scrapeProduct('https://www.gymshark.com/pages/shop-women')
+    // If you're working in a browser, you can also display them on the webpage
+    // For example, assuming you have an HTML element with id="output"
+    // document.getElementById('output').innerHTML = prices.join('<br>');
+  })
+  .catch(error => {
+    console.error('Error fetching HTML:', error);
+  });
 // const axios = require('axios');
 // const cheerio = require('cheerio');
 
