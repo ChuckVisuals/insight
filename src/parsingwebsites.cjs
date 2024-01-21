@@ -36,7 +36,7 @@ async function scrapeProduct(url) {
 
 }
 
-scrapeProduct('https://www.gymshark.com/?gclsrc=aw.ds&gad_source=1&gclid=Cj0KCQiA-62tBhDSARIsAO7twbaOeAZxGwPccigRplSgyI5Cn4Lb2rpmXBowXQrPyFcAZC0fkDDH9x4aAsvCEALw_wcB&gclsrc=aw.ds')
+scrapeProduct('https://www.gymshark.com/pages/shop-women')
 // const axios = require('axios');
 // const cheerio = require('cheerio');
 
