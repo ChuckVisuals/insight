@@ -20,7 +20,7 @@
 // }
 
 // main();
-cosnt puppeteer = require('puppeteer')
+const puppeteer = require('puppeteer')
 async function scrapeProduct(url) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage()
