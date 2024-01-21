@@ -54,6 +54,11 @@ async function fetchAndProcess(url) {
       // Extract image source
       const imageUrl = imageElement.src;
 
+      // Check if the image URL ends with .jpg or .jpeg (case-insensitive)
+      if (!imageUrl.toLowerCase().includes('.jpg') && !imageUrl.toLowerCase().endsWith('.jpeg')) {
+        return; // Skip this image
+      }
+
       // Log or use the information
       console.log('URL:', url);
       console.log('Image URL:', imageUrl);
