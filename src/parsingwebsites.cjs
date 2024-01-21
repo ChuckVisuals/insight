@@ -55,6 +55,7 @@ async function fetchAndProcess(url) {
       const imageUrl = imageElement.src;
 
       // Log or use the information
+      console.log('URL:', url);
       console.log('Image URL:', imageUrl);
 
       // Start with the parent element and move up the DOM tree until we find an element containing a '$'
