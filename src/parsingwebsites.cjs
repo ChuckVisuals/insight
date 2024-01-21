@@ -20,23 +20,63 @@
 // }
 
 // main();
-const puppeteer = require('puppeteer')
+// const puppeteer = require('puppeteer')
+// async function scrapeProduct(url) {
+//     const browser = await puppeteer.launch();
+//     const page = await browser.newPage()
+//     await page.goto(url)
+//     const[el] = await page.$x('//*[@id="MainContent"]/div[1]/section[1]/div[1]')
+//     const src = await el.getProperty('src');
+//     const srcTxt = await src.jsonValue();
+
+//     console.log({srcTxt});
+
+//     browser.close()
+
+
+// }
+
+// scrapeProduct('https://www.gymshark.com/pages/shop-women')
+
+
+
+
+const express = require('express');
+const puppeteer = require('puppeteer');
+const app = express();
+const port = 3001; // or any other available port
+
 async function scrapeProduct(url) {
     const browser = await puppeteer.launch();
-    const page = await browser.newPage()
-    await page.goto(url)
-    const[el] = await page.$x('//*[@id="MainContent"]/div[1]/section[1]/div[1]')
+    const page = await browser.newPage();
+    await page.goto(url);
+    const [el] = await page.$x('//*[@id="MainContent"]/div[1]');
     const src = await el.getProperty('src');
     const srcTxt = await src.jsonValue();
-
-    console.log({srcTxt});
-
-    browser.close()
-
-
+    await browser.close();
+    return srcTxt;
 }
 
-scrapeProduct('https://www.gymshark.com/pages/shop-women')
+app.get('/scrape', async (req, res) => {
+    const url = req.query.url; // Pass the URL as a query parameter
+    try {
+        const data = await scrapeProduct(url);
+        res.json({ data });
+    } catch (error) {
+        res.status(500).send(error.toString());
+    }
+});
+
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
+
+
+
+
+
+
+
 // const axios = require('axios');
 // const cheerio = require('cheerio');
 
