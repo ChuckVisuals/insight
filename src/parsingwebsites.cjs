@@ -46,11 +46,6 @@ async function fetchAndProcess(url) {
     const { window } = new JSDOM(html);
     const { document } = window;
 
-    // Use a regular expression to find prices (assuming they contain $)
-    const priceRegex = /\$\d+(\.\d{1,2})?/g;
-    const prices = html.match(priceRegex) || [];
-    console.log('Prices:', prices);
-
     // Select image elements (adjust as needed based on the HTML structure)
     const imageElements = document.querySelectorAll('img');
 
@@ -62,11 +57,14 @@ async function fetchAndProcess(url) {
       // Log or use the information
       console.log('Image URL:', imageUrl);
 
-      // Assuming each image has a corresponding price, find the closest price element
-      const closestPriceElement = imageElement.closest('.price'); // Adjust selector as needed
+      // Start with the parent element and move up the DOM tree until we find an element containing a '$'
+      let closestPriceElement = imageElement.parentElement;
+      while (closestPriceElement && !closestPriceElement.textContent.includes('$')) {
+        closestPriceElement = closestPriceElement.parentElement;
+      }
 
       // Extract price value
-      const price = closestPriceElement ? closestPriceElement.textContent.trim() : 'Price not found';
+      const price = closestPriceElement ? closestPriceElement.textContent.match(/\$\d+(\.\d{1,2})?/)[0] : 'Price not found';
 
       // Log or use the price information
       console.log('Price:', price);
