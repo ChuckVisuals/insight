@@ -23,7 +23,15 @@
 // Example URL to get HTML from
 // Example URL to get HTML from
 
-const urls = ['https://www.gymshark.com/pages/shop-women', 'https://www.gymshark.com/pages/shop-men', 'https://www.youngla.com/collections/sale'];
+const fetch = require('node-fetch');
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+
+const urls = [
+  'https://www.gymshark.com/pages/shop-women',
+  'https://www.gymshark.com/pages/shop-men',
+  'https://www.youngla.com/collections/sale'
+];
 
 // Function to fetch and process a single URL
 async function fetchAndProcess(url) {
@@ -34,16 +42,36 @@ async function fetchAndProcess(url) {
     }
     const html = await response.text();
 
+    // Use jsdom to create a DOM environment
+    const { window } = new JSDOM(html);
+    const { document } = window;
+
     // Use a regular expression to find prices (assuming they contain $)
     const priceRegex = /\$\d+(\.\d{1,2})?/g;
     const prices = html.match(priceRegex) || [];
+    console.log('Prices:', prices);
 
-    // Log the extracted prices to the console
-    console.log('Prices for', url, ':', prices);
+    // Select image elements (adjust as needed based on the HTML structure)
+    const imageElements = document.querySelectorAll('img');
 
-    // If you're working in a browser, you can also display them on the webpage
-    // For example, assuming you have an HTML element with id="output"
-    // document.getElementById('output').innerHTML += prices.join('<br>') + '<br>';
+    // Iterate over image elements
+    imageElements.forEach(imageElement => {
+      // Extract image source
+      const imageUrl = imageElement.src;
+
+      // Log or use the information
+      console.log('Image URL:', imageUrl);
+
+      // Assuming each image has a corresponding price, find the closest price element
+      const closestPriceElement = imageElement.closest('.price'); // Adjust selector as needed
+
+      // Extract price value
+      const price = closestPriceElement ? closestPriceElement.textContent.trim() : 'Price not found';
+
+      // Log or use the price information
+      console.log('Price:', price);
+      console.log('---');
+    });
   } catch (error) {
     console.error('Error fetching HTML:', error);
   }
@@ -51,6 +79,7 @@ async function fetchAndProcess(url) {
 
 // Loop over the URLs and fetch each one
 urls.forEach(fetchAndProcess);
+
 // const axios = require('axios');
 // const cheerio = require('cheerio');
 
